@@ -1,20 +1,24 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { partyData } from "../../data.js";
+import { parties } from "../../data.js";
 
 const createParty = (socket, io) => () => {
   const partyId = uuidv4();
-  partyData[partyId] = {
+  parties[partyId] = {
     id: partyId,
     users: [].push(socket.id),
   };
 
   socket.join(partyId);
-  io.to(partyId).emit("party-created", partyData[partyId]);
+  io.to(partyId).emit("party-created", parties[partyId]);
+
+  socket.emit("party-get-all", {
+    parties: Object.values(parties),
+  });
 };
 
 const joinParty = (socket, io) => async (partyId) => {
-  if (!partyData[partyId]) {
+  if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
 
@@ -24,35 +28,35 @@ const joinParty = (socket, io) => async (partyId) => {
     return socket.emit("party-full");
   }
 
-  partyData[partyId].users.push(socket.id);
+  parties[partyId].users.push(socket.id);
   socket.join(partyId);
-  io.to(partyId).emit("party-joined", partyData[partyId]);
+  io.to(partyId).emit("party-joined", parties[partyId]);
 };
 
 const leaveParty = (socket, io) => (partyId) => {
-  if (!partyData[partyId]) {
+  if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
 
-  partyData[partyId].users = partyData[partyId].users.filter(
+  parties[partyId].users = parties[partyId].users.filter(
     (userId) => userId !== socket.id
   );
 
   socket.leave(partyId);
-  io.to(partyId).emit("party-left", partyData[partyId]);
+  io.to(partyId).emit("party-left", parties[partyId]);
 
-  if (partyData[partyId].users.length === 0) {
-    delete partyData[partyId];
+  if (parties[partyId].users.length === 0) {
+    delete parties[partyId];
   }
 };
 
 const deleteParty = (socket, io) => (partyId) => {
-  if (!partyData[partyId]) {
+  if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
 
-  io.to(partyId).emit("party-deleted", partyData[partyId]);
-  delete partyData[partyId];
+  io.to(partyId).emit("party-deleted", parties[partyId]);
+  delete parties[partyId];
 };
 
 const subscribePartyEvents = {
