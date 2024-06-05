@@ -17,8 +17,8 @@ const PartyProvider: React.FC<{
   const [parties, setParties] = useState([]);
 
   socket.on("party-get-all", (response) => {
-    console.log("@Parties", response);
-    setParties(response);
+    console.log("@Parties", response.parties);
+    setParties(response.parties);
   });
 
   useEffect(() => {

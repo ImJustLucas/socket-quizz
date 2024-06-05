@@ -1,12 +1,8 @@
 "use client";
 
-
 import { PartyContext } from "@/context/game-context";
 
 import { useContext } from "react";
-import { Button } from "@/components/button";
-import { Input } from "@/components/Input";
-import JoinGame from "@/components/JoinGame";
 
 import { GamePreview } from "@/components/GamePreview"; // Import the missing component
 

@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
   socket.on("party-get-all", () => {
     console.log("@Get all parties");
     socket.emit("party-get-all", {
-      parties: Object.values(parties),
+      parties: parties,
     });
   });
 

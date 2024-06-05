@@ -13,7 +13,7 @@ const createParty = (socket, io) => () => {
   io.to(partyId).emit("party-created", parties[partyId]);
 
   socket.emit("party-get-all", {
-    parties: Object.values(parties),
+    parties: parties,
   });
 };
 
