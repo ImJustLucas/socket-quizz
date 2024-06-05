@@ -1,11 +1,11 @@
 "use client";
 
 import { PartyPreview } from "@/components/GamePreview";
-import { LucasButton } from "@/components/LucasButton";
 
 import { PartyContext } from "@/context/game-context";
 
 import { useContext } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const { parties } = useContext(PartyContext);
@@ -18,12 +18,6 @@ export default function Home() {
       {parties.map((party) => (
         <PartyPreview key={party.id} party={party} />
       ))}
-      <LucasButton
-        className="p-4 rounded bg-orange-300"
-        onClick={handleCreateGame}
-      >
-        Add game
-      </LucasButton>
       <h1 className="text-6xl text-white text-center">Joindre une salle</h1>
       <div className="max-w-xl">
         <label htmlFor="pseudo">Pseudo</label>

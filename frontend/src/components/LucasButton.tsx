@@ -12,7 +12,7 @@ export const LucasButton: React.FC<ButtonProps> = ({
   ...props
 }) => {
   return (
-    <button {...props} className={className}>
+    <button {...props} className={`bg-white ${className}`}>
       {children}
     </button>
   );

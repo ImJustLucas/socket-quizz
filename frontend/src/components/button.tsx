@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+export type ButtonProps<ButtonType extends React.ElementType = "button"> =
+  React.ComponentPropsWithoutRef<ButtonType>;
 
-const Button = () => {
-  const [text, setText] = useState('Cliquez ici');
 
-  const handleClick = () => {
-    setText('Texte modifié !');
-  };
-
+export const Button: React.FC<ButtonProps> = ({
+  className,
+  children,
+  ...props
+}) => {
   return (
-    <button onClick={handleClick}>
-      {text}
+    <button {...props} className={`bg-color-1 rounded-lg px-4 py-4 text-white hover:opacity-80 ${className}`}>
+      {children}
     </button>
   );
 };
-
-export default Button;
-
