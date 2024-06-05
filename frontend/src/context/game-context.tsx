@@ -2,10 +2,11 @@
 
 import { socket } from "@/services/socket.io";
 import { partyEvent } from "@/services/socket.io/party";
+import { Party } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
 interface IGameContext {
-  parties: any[];
+  parties: Party[];
 }
 
 const PartyContext = createContext<IGameContext>({} as IGameContext);
