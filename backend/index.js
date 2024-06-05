@@ -39,6 +39,9 @@ io.on("connection", (socket) => {
   socket.on("message", sendMessageGLobal(io));
 
   socket.on("party-create", subscribePartyEvents.create(socket, io));
+  socket.on("party-join", subscribePartyEvents.join(socket, io));
+  socket.on("party-leave", subscribePartyEvents.leave(socket, io));
+  socket.on("party-delete", subscribePartyEvents.delete(socket, io));
 });
 
 server.listen(PORT, () => {
