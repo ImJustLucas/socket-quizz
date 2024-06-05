@@ -23,7 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <PartyProvider>{children}</PartyProvider>
+        <PartyProvider>
+          <div className="bg-[#34343A] min-h-screen min-w-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
+            <div className="absolute -bottom-4 -left-4 w-2/6 aspect-square bg-color-1 rounded-full blur-[200px]"></div>
+            <div className="absolute -right-4 -top-4 w-2/12 aspect-square bg-color-2 rounded-full blur-[150px]"></div>
+            {children}
+          </div>
+        </PartyProvider>
       </body>
     </html>
   );
