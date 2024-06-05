@@ -19,9 +19,13 @@ export default function Home() {
       <h1 className="text-6xl text-white text-center">Joindre une salle</h1>
       <div className="max-w-xl">
         <label htmlFor="pseudo">Pseudo</label>
-        <input type="text" placeholder="John Doe" className="bg-color-3 rounded-lg border border-gray"/>
+        <input
+          type="text"
+          placeholder="John Doe"
+          className="bg-color-3 rounded-lg border border-gray"
+        />
       </div>
-      <Button text='Button' />
+      <Button text="Button" />
       <button className="p-4 rounded bg-orange-400">Add game</button>
     </main>
   );
