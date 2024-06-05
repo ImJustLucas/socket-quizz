@@ -12,26 +12,32 @@ const createParty = (socket, io) => () => {
   socket.join(partyId);
   io.to(partyId).emit("party-created", parties[partyId]);
 
-  socket.emit("party-get-all", {
+  socket.emit("party-update", {
     parties: parties,
   });
 };
 
-const joinParty = (socket, io) => async (partyId) => {
-  if (!parties[partyId]) {
-    return socket.emit("party-not-found");
-  }
+const joinParty =
+  (socket, io) =>
+  async ({ partyId, pseudo }) => {
+    console.log("@Join party", partyId, pseudo);
+    if (!parties[partyId]) {
+      return socket.emit("party-not-found");
+    }
 
-  const sockets = await io.in(partyId).fetchSockets();
+    const sockets = await io.in(partyId).fetchSockets();
 
-  if (sockets.length > 4) {
-    return socket.emit("party-full");
-  }
+    if (sockets.length > 4) {
+      return socket.emit("party-full");
+    }
 
-  parties[partyId].users.push(socket.id);
-  socket.join(partyId);
-  io.to(partyId).emit("party-joined", parties[partyId]);
-};
+    parties[partyId].users.push(socket.id);
+    socket.join(partyId);
+    io.to(partyId).emit("party-joined", parties[partyId]);
+    socket.emit("party-update", {
+      parties: parties,
+    });
+  };
 
 const leaveParty = (socket, io) => (partyId) => {
   if (!parties[partyId]) {

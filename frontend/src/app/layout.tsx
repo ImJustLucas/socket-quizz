@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import { authEvents } from "@/services/socket.io/global/init.socket";
-import { PartyProvider } from "@/context/game-context";
+import { PartyProvider } from "@/context/party-context";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -6,7 +6,8 @@ import { Party } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
 interface IGameContext {
-  parties: Party[];
+  parties: Record<string, Party>;
+  isFetching: boolean;
 }
 
 const PartyContext = createContext<IGameContext>({} as IGameContext);
@@ -14,11 +15,13 @@ const PartyContext = createContext<IGameContext>({} as IGameContext);
 const PartyProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [parties, setParties] = useState([]);
+  const [parties, setParties] = useState({});
+  const [isFetching, setIsFetching] = useState(true);
 
-  socket.on("party-get-all", (response) => {
+  socket.on("party-update", (response) => {
     console.log("@Parties", response.parties);
     setParties(response.parties);
+    setIsFetching(false);
   });
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const PartyProvider: React.FC<{
   }, []);
 
   return (
-    <PartyContext.Provider value={{ parties }}>
+    <PartyContext.Provider value={{ parties, isFetching }}>
       {children}
     </PartyContext.Provider>
   );
