@@ -2,7 +2,7 @@
 
 import { socket } from "@/services/socket.io";
 import { partyEvent } from "@/services/socket.io/party";
-import { Party } from "@/types";
+import type { Party } from "@/types";
 import { createContext, useEffect, useState } from "react";
 
 interface IGameContext {
@@ -18,7 +18,7 @@ const PartyProvider: React.FC<{
   const [parties, setParties] = useState({});
   const [isFetching, setIsFetching] = useState(true);
 
-  socket.on("party-update", (response) => {
+  socket.on("party-list-update", (response) => {
     console.log("@Parties", response.parties);
     setParties(response.parties);
     setIsFetching(false);
@@ -28,7 +28,7 @@ const PartyProvider: React.FC<{
     partyEvent.getParties();
 
     return () => {
-      socket.off("party-get-all");
+      //socket.off("party-get-all");
     };
   }, []);
 

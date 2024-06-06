@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { parties } from "../../data.js";
+import partyManagementEvents from "./party-management.events.js";
 
 const createParty = (socket, io) => () => {
   const partyId = uuidv4();
@@ -12,9 +13,7 @@ const createParty = (socket, io) => () => {
   socket.join(partyId);
   io.to(partyId).emit("party-created", parties[partyId]);
 
-  socket.emit("party-update", {
-    parties: parties,
-  });
+  partyManagementEvents.updatePartiesList(socket);
 };
 
 const joinParty =
@@ -34,9 +33,7 @@ const joinParty =
     parties[partyId].users.push(socket.id);
     socket.join(partyId);
     io.to(partyId).emit("party-joined", parties[partyId]);
-    socket.emit("party-update", {
-      parties: parties,
-    });
+    partyManagementEvents.updatePartiesList(socket);
   };
 
 const leaveParty = (socket, io) => (partyId) => {

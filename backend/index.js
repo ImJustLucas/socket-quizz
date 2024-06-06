@@ -7,9 +7,8 @@ import cors from "cors";
 import { socketOnDisconnet } from "./events/global/disconnect.event.js";
 import { sendMessageGLobal } from "./events/global/message.event.js";
 
-import { parties } from "./data.js";
-
 import subscribePartyEvents from "./events/party-culture/subscribe.event.js";
+import partyManagementEvents from "./events/party-culture/party-management.events.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -30,19 +29,13 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log(`@Connection: ${socket.id}`);
 
-  socket.emit("connection", {
-    allParties: Object.values(parties),
-  });
-
   socket.on("disconnect", socketOnDisconnet(socket));
 
   socket.on("message", sendMessageGLobal(io));
 
   socket.on("party-get-all", () => {
     console.log("@Get all parties");
-    socket.emit("party-get-all", {
-      parties: parties,
-    });
+    partyManagementEvents.updatePartiesList(socket);
   });
 
   socket.on("party-create", subscribePartyEvents.create(socket, io));
