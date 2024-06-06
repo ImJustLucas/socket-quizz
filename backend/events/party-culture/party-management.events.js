@@ -16,13 +16,9 @@ const updateParty = (socket, io) => (partyId) => {
 };
 
 const clearDisconnectedUser = (socket, io) => {
-  for (const party in parties) {
-    const index = party.members.indexOf(socket.id);
-
-    if (index !== -1) {
-      party.members.splice(index, 1);
-      io.to(party.id).emit("party-update-one", party);
-    }
+  for (const partyId in parties) {
+    const party = parties[partyId];
+    party.members = party.members.filter((userId) => userId !== socket.id);
   }
 
   updatePartiesList(socket, io);
