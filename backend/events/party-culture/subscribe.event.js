@@ -3,11 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import { parties } from "../../data.js";
 import partyManagementEvents from "./party-management.events.js";
 
-const createParty = (socket, io) => () => {
+const createParty = (socket, io) => (partyName) => {
   const partyId = uuidv4();
   parties[partyId] = {
     id: partyId,
     members: [].push(socket.id),
+    name: partyName ?? "Party unnamed",
+    status: "waiting",
   };
 
   socket.join(partyId);

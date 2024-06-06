@@ -1,6 +1,7 @@
 import { socket } from "..";
 
-const createParty = () => socket.emit("party-create");
+const createParty = (partyName: string) =>
+  socket.emit("party-create", partyName);
 
 const joinParty = (payload: { partyId: string; pseudo: string }) =>
   socket.emit("party-join", payload);
