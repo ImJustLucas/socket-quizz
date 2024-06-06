@@ -7,10 +7,12 @@ const createParty = (socket, io) => (partyName) => {
   const partyId = uuidv4();
   parties[partyId] = {
     id: partyId,
-    members: [].push(socket.id),
+    members: [socket.id],
     name: partyName ?? "Party unnamed",
     status: "waiting",
   };
+
+  console.log("@Create party", parties[partyId]);
 
   socket.join(partyId);
   io.to(partyId).emit("party-created", parties[partyId]);
