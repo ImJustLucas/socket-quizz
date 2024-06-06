@@ -1,10 +1,9 @@
 import { parties } from "../../data.js";
 
-const updatePartiesList = (socket) =>
-  socket.emit("party-list-update", {
-    parties: parties,
-  });
-
+const updatePartiesList = (socket) => {
+  console.log("@Update parties list");
+  socket.emit("parties-list", parties);
+};
 const updateParty = (socket, io) => (partyId) => {
   console.log("@Update party", partyId);
 
