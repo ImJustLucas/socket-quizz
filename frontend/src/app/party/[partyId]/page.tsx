@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/button";
 import { JoinGame } from "@/components/JoinGame";
 import { PartyContext } from "@/context/party-context";
 import { socket } from "@/services/socket.io";
@@ -41,7 +42,12 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   }
 
   if (party.status === "waiting") {
-    return <>Waiting for other players</>;
+    return (
+      <div>
+        <h3>Waiting for other players</h3>
+        <Button>Leave game</Button>
+      </div>
+    );
   }
 
   if (party.status === "finished") {
