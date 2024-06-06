@@ -3,6 +3,7 @@
 import { JoinGame } from "@/components/JoinGame";
 import { PartyContext } from "@/context/party-context";
 import { socket } from "@/services/socket.io";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useContext } from "react";
@@ -17,7 +18,7 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
 
   const partyId = params.partyId;
 
-  if (isFetching || !partyId) <>Loading</>;
+  if (isFetching || !partyId) return <>Loading</>;
 
   const party = parties[partyId];
 
@@ -28,11 +29,16 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
 
   console.log("party", party);
 
-  if (party.members.length > 4) {
-    return <>Party is full</>;
+  if (party.members.length >= 4) {
+    return (
+      <div>
+        <h3>Party is full</h3>
+        <Link href={"/"}>Return to home page</Link>
+      </div>
+    );
   }
 
-  if (!party.members.includes(socket.id!)) {
+  if (!party.members.includes(socket.id as string)) {
     return <JoinGame partyId={partyId} />;
   }
 
