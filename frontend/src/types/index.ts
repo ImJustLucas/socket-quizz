@@ -3,4 +3,26 @@ export type Party = {
   id: string;
   members: string[];
   status: "waiting" | "playing" | "finished" | "starting";
+  questions: {
+    maxQuestions: number;
+    currentQuestion: number;
+    questionsIds: string[];
+  };
+};
+
+export type memberAnwser = {
+  socketId: string;
+  partyId: string;
+  questions: {
+    questionId: string;
+    answer: string;
+  }[];
+  score: number;
+};
+
+export type Question = {
+  id: string;
+  question: string;
+  answers: [string, string, string, string];
+  correctAnswer: string;
 };
