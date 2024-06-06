@@ -23,40 +23,24 @@ export default function Home() {
     <main>
       <h1 className="text-6xl text-white text-center mb-16">Socket quizz</h1>
       <div
-        className="party-list"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-        }}
+        className="flex flex-col gap-2 w-full"
       >
-        {Object.values(parties).length > 0 ? (
-          Object.values(parties).map((party) => (
-            <div className="flex flex-col gap-2" key={party.id}>
-              <GamePreview party={party} />
-            </div>
-          ))
-        ) : (
-          <>
-            <p className="text-white text-2xl mb-4">Aucune partie en cours</p>
-          </>
-        )}
-        <div className="flex flex-col">
-          <label htmlFor="roomName" className="mb-2">
-            Nouvelle salle
-          </label>
-          <Input
-            type="text"
-            id="roomName"
-            placeholder="Nom de la salle"
-            className="mb-4"
-            onChange={(e) => {
+        {Object.values(parties).length > 0
+          ? Object.values(parties).map((party) => (
+              <GamePreview key={party.id} party={party} />
+            ))
+          : (
+            <>
+              <p className="text-white text-2xl mb-4">Aucune partie en cours</p>
+            </>
+          )}
+          <div className="flex flex-col mt-4">
+            <label htmlFor="roomName" className="mb-2">Nouvelle salle</label>
+            <Input type="text" id="roomName" value={room} placeholder="Nom de la salle" className="mb-4" onChange={(e) => {
               setRoomName(e.target.value);
             }}
           />
-          <Button onClick={handleCreateParty}>Créer une partie</Button>
+          <Button onClick={handleCreateParty} disabled={room.trim() === ""}>Créer une partie</Button>
         </div>
       </div>
     </main>
