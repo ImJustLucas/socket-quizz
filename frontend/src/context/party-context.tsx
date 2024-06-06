@@ -3,6 +3,7 @@
 import { socket } from "@/services/socket.io";
 import { partyEvent } from "@/services/socket.io/party";
 import type { Party } from "@/types";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 interface IGameContext {
@@ -18,6 +19,8 @@ const PartyProvider: React.FC<{
   const [parties, setParties] = useState({});
   const [isFetching, setIsFetching] = useState(true);
 
+  const router = useRouter();
+
   socket.on("party-list-update", (response) => {
     console.log("@Parties", response.parties);
     setParties(response.parties);
@@ -30,6 +33,11 @@ const PartyProvider: React.FC<{
       ...prev,
       [response.party.id]: response.party,
     }));
+  });
+
+  socket.on("party-created", (party) => {
+    console.log("@Party created");
+    router.push(`/party/${party.id}`);
   });
 
   useEffect(() => {
