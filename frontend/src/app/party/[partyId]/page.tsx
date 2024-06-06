@@ -1,5 +1,6 @@
 "use client";
 
+import { JoinGame } from "@/components/JoinGame";
 import { WaitingPlayer } from "@/components/WaitingPlayer";
 import { PartyContext } from "@/context/party-context";
 import { socket } from "@/services/socket.io";
@@ -37,15 +38,11 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   }
 
   if (!party.members.includes(socket.id as string)) {
-    return <WaitingPlayer partyId={partyId} />;
+    return <JoinGame partyId={partyId} />;
   }
 
   if (party.status === "waiting") {
-    return (
-      <div>
-        <h3>Waiting for other players</h3>
-      </div>
-    );
+    return <WaitingPlayer partyId={partyId} />;
   }
 
   if (party.status === "finished") {
