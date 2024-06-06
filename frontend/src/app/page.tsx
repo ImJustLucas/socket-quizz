@@ -14,11 +14,10 @@ export default function Home() {
   const { parties } = useContext(PartyContext);
   const [room, setRoomName] = useState("");
 
-
   const handleCreateParty = () => {
     authPartyEvents.create(room);
-    setRoomName(""); 
-  }
+    setRoomName("");
+  };
 
   return (
     <main>
@@ -33,24 +32,32 @@ export default function Home() {
           width: "100%",
         }}
       >
-        {Object.values(parties).length > 0
-          ? Object.values(parties).map((party) => (
-            <div className="flex flex-col gap-2">
-              <GamePreview key={party.id} party={party} />
-            </div> 
-            ))
-          : (
-            <>
-              <p className="text-white text-2xl mb-4">Aucune partie en cours</p>
-            </>
-          )}
-          <div className="flex flex-col">
-            <label htmlFor="roomName" className="mb-2">Nouvelle salle</label>
-            <Input type="text" id="roomName" placeholder="Nom de la salle" className="mb-4" onChange={(e) => {
+        {Object.values(parties).length > 0 ? (
+          Object.values(parties).map((party) => (
+            <div className="flex flex-col gap-2" key={party.id}>
+              <GamePreview party={party} />
+            </div>
+          ))
+        ) : (
+          <>
+            <p className="text-white text-2xl mb-4">Aucune partie en cours</p>
+          </>
+        )}
+        <div className="flex flex-col">
+          <label htmlFor="roomName" className="mb-2">
+            Nouvelle salle
+          </label>
+          <Input
+            type="text"
+            id="roomName"
+            placeholder="Nom de la salle"
+            className="mb-4"
+            onChange={(e) => {
               setRoomName(e.target.value);
-            }}/>
-            <Button onClick={handleCreateParty}>Créer une partie</Button>
-          </div>
+            }}
+          />
+          <Button onClick={handleCreateParty}>Créer une partie</Button>
+        </div>
       </div>
     </main>
   );
