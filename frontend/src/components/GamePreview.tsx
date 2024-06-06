@@ -9,7 +9,7 @@ export const GamePreview: React.FC<GamePreviewProps> = ({ party }) => {
   return (
     <Link
       href={`/party/${party.id}`}
-      className="flex justify-between items-center content-center w-full"
+      className="flex justify-between w-full p-4 rounded-lg border border-[#5D5D64] hover:bg-gray-700"
       style={{
         backgroundColor: "#34343A",
       }}

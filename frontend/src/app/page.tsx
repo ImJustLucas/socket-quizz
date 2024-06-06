@@ -35,7 +35,9 @@ export default function Home() {
       >
         {Object.values(parties).length > 0
           ? Object.values(parties).map((party) => (
+            <div className="flex flex-col gap-2">
               <GamePreview key={party.id} party={party} />
+            </div> 
             ))
           : (
             <>
