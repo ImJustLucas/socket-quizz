@@ -4,8 +4,10 @@ import { JoinGame } from "@/components/JoinGame";
 import { Question } from "@/components/Question";
 import { Starting } from "@/components/Starting";
 import { WaitingPlayer } from "@/components/WaitingPlayer";
+import { Button } from "@/components/button";
 import { PartyContext } from "@/context/party-context";
 import { socket } from "@/services/socket.io";
+import { authPartyEvents } from "@/services/socket.io/party/authentification.event";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +18,11 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   const { parties, isFetching } = useContext(PartyContext);
 
   console.log(isFetching);
+
+  const handleLeaveGame = () => {
+    authPartyEvents.leave(partyId);
+    router.push("/");
+  }
 
   const partyId = params.partyId;
 
@@ -32,14 +39,13 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
 
   if (party.members.length >= 4) {
     return (
-      <div>
-        <h3>Party is full</h3>
-        <Link href={"/"}>Return to home page</Link>
+      <div className="flex flex-col items-center align-center">
+        <h1 className="text-6xl mb-6">La partie est pleine</h1>
+        <Button onClick={handleLeaveGame}>Quitter</Button>
       </div>
     );
   }
 
-  return <Question partyId={partyId}/>;
 
   if (!party.members.includes(socket.id as string)) {
     return <JoinGame partyId={partyId} />;
@@ -59,7 +65,7 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
 
   return (
     <div>
-      <h1>game</h1>
+      <Question partyId={partyId} />;
     </div>
   );
 };

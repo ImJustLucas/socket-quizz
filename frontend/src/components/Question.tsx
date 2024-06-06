@@ -7,6 +7,7 @@ import { partyEvents } from "@/services/socket.io/party/action.event";
 import type { QuestionType } from "@/types";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
+import { partyEvents } from "@/services/socket.io/party/action.event";
 
 type QuestionScreenProps = {
   partyId: string;
@@ -37,6 +38,16 @@ export const Question: React.FC<QuestionScreenProps> = ({ partyId }) => {
   };
 
   const currentParty = parties[partyId];
+
+  const nextQuestion = () => {
+      setTimeout(() => {
+          if (currentParty.questions.currentQuestion < currentParty.questions.maxQuestions) {
+              partyEvents.nextQuestion;
+          } else {
+              partyEvents.finished;
+          }
+      }, 10000);
+  }
 
   return (
     <main>

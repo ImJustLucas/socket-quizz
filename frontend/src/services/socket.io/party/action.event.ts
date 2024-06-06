@@ -1,4 +1,6 @@
+import next from "next";
 import { socket } from "..";
+import { finished } from "stream";
 
 const startParty = (partyId: string) => socket.emit("party-start", partyId);
 
