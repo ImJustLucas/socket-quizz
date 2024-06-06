@@ -29,6 +29,7 @@ const nextQuestion = (socket, io) => (partyId) => {
   const currentParty = parties[partyId];
 
   parties[partyId].status = "playing";
+  currentParty.questions.currentQuestion += 1;
 
   io.to(partyId).emit(
     "party-new-question",
