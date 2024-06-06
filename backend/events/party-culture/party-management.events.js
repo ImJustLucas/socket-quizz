@@ -15,7 +15,7 @@ const updateParty = (socket, io) => (partyId) => {
   io.to(partyId).emit("party-update-one", parties[partyId]);
 };
 
-const clearDisconnectedUser = (socket, io) => () => {
+const clearDisconnectedUser = (socket, io) => {
   for (const partyId in parties) {
     const party = parties[partyId];
     const index = party.members.indexOf(socket.id);
@@ -25,7 +25,7 @@ const clearDisconnectedUser = (socket, io) => () => {
       io.to(partyId).emit("party-update-one", party);
     }
   }
-  updatePartiesList(socket);
+  updatePartiesList(socket, io);
   console.log("@Clear user from parties");
 };
 

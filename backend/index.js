@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log(`@Connection: ${socket.id}`);
 
-  socket.on("disconnect", socketOnDisconnet(socket));
+  socket.on("disconnect", socketOnDisconnet(socket, io));
 
   socket.on("message", sendMessageGLobal(io));
 

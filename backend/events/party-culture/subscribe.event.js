@@ -37,6 +37,8 @@ const joinParty =
   };
 
 const leaveParty = (socket, io) => (partyId) => {
+  console.log("@Leave party", partyId);
+
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
@@ -47,10 +49,7 @@ const leaveParty = (socket, io) => (partyId) => {
 
   socket.leave(partyId);
   io.to(partyId).emit("party-left", parties[partyId]);
-
-  if (parties[partyId].members.length === 0) {
-    delete parties[partyId];
-  }
+  partyManagementEvents.updatePartiesList(socket);
 };
 
 const deleteParty = (socket, io) => (partyId) => {
