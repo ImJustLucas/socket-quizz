@@ -7,7 +7,7 @@ const createParty = (socket, io) => () => {
   const partyId = uuidv4();
   parties[partyId] = {
     id: partyId,
-    users: [].push(socket.id),
+    members: [].push(socket.id),
   };
 
   socket.join(partyId);
@@ -30,7 +30,7 @@ const joinParty =
       return socket.emit("party-full");
     }
 
-    parties[partyId].users.push(socket.id);
+    parties[partyId].members.push(socket.id);
     socket.join(partyId);
     io.to(partyId).emit("party-joined", parties[partyId]);
     partyManagementEvents.updatePartiesList(socket);
@@ -41,14 +41,14 @@ const leaveParty = (socket, io) => (partyId) => {
     return socket.emit("party-not-found");
   }
 
-  parties[partyId].users = parties[partyId].users.filter(
+  parties[partyId].members = parties[partyId].members.filter(
     (userId) => userId !== socket.id
   );
 
   socket.leave(partyId);
   io.to(partyId).emit("party-left", parties[partyId]);
 
-  if (parties[partyId].users.length === 0) {
+  if (parties[partyId].members.length === 0) {
     delete parties[partyId];
   }
 };

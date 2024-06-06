@@ -24,6 +24,14 @@ const PartyProvider: React.FC<{
     setIsFetching(false);
   });
 
+  socket.on("party-update-one", (response) => {
+    console.log("@Party update one", response.party);
+    setParties((prev) => ({
+      ...prev,
+      [response.party.id]: response.party,
+    }));
+  });
+
   useEffect(() => {
     partyEvent.getParties();
 

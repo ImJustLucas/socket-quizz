@@ -12,8 +12,6 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   const router = useRouter();
   const { parties, isFetching } = useContext(PartyContext);
 
-  console.log("@context", parties, isFetching);
-
   console.log(isFetching);
 
   const partyId = params.partyId;

@@ -5,8 +5,17 @@ const updatePartiesList = (socket) =>
     parties: parties,
   });
 
+const updateParty = (socket, io) => (partyId) => {
+  if (!parties[partyId]) {
+    return socket.emit("party-not-found");
+  }
+
+  io.to(partyId).emit("party-update-one", parties[partyId]);
+};
+
 const partyManagementEvents = {
   updatePartiesList,
+  updateParty,
 };
 
 export default partyManagementEvents;
