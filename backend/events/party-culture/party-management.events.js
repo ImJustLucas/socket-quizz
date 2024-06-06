@@ -1,9 +1,6 @@
 import { parties } from "../../data.js";
 
-const updatePartiesList = (io) =>
-  io.emit("party-list-update", {
-    parties: parties,
-  });
+const updatePartiesList = (io) => io.emit("party-list-update", parties);
 
 const updateParty = (socket, io) => (partyId) => {
   console.log("@Update party", socket, partyId);
@@ -21,7 +18,7 @@ const clearDisconnectedUser = (socket, io) => {
     party.members = party.members.filter((userId) => userId !== socket.id);
   }
 
-  updatePartiesList(socket, io);
+  updatePartiesList(io);
   console.log("@Clear user from parties");
 };
 

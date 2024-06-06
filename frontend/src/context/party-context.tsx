@@ -16,14 +16,14 @@ const PartyContext = createContext<IGameContext>({} as IGameContext);
 const PartyProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [parties, setParties] = useState({});
+  const [parties, setParties] = useState<Record<string, Party>>({});
   const [isFetching, setIsFetching] = useState(true);
 
   const router = useRouter();
 
-  socket.on("party-list-update", (response) => {
-    console.log("@Update - Parties", response.parties);
-    setParties(response.parties);
+  socket.on("party-list-update", (parties: Record<string, Party>) => {
+    console.log("@Update - Parties", parties);
+    setParties(parties);
     setIsFetching(false);
   });
 
@@ -42,10 +42,9 @@ const PartyProvider: React.FC<{
 
   useEffect(() => {
     partyEvent.getParties();
-
-    return () => {
-      socket.off("party-get-all");
-    };
+    // return () => {
+    //   socket.off("party-get-all");
+    // };
   }, []);
 
   return (

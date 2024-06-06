@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
 
   socket.on("party-get-all", () => {
     console.log("@Get all parties");
-    partyManagementEvents.updatePartiesList(socket);
+    partyManagementEvents.updatePartiesList(io);
   });
 
   socket.on("party-create", subscribePartyEvents.create(socket, io));
