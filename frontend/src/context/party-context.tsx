@@ -22,16 +22,16 @@ const PartyProvider: React.FC<{
   const router = useRouter();
 
   socket.on("party-list-update", (response) => {
-    console.log("@Parties", response.parties);
+    console.log("@Update - Parties", response.parties);
     setParties(response.parties);
     setIsFetching(false);
   });
 
-  socket.on("party-update-one", (response) => {
-    console.log("@Party update one", response.party);
+  socket.on("party-update-one", (party) => {
+    console.log("@Party update one", party);
     setParties((prev) => ({
       ...prev,
-      [response.party.id]: response.party,
+      [party.id]: party,
     }));
   });
 
@@ -44,7 +44,7 @@ const PartyProvider: React.FC<{
     partyEvent.getParties();
 
     return () => {
-      //socket.off("party-get-all");
+      socket.off("party-get-all");
     };
   }, []);
 

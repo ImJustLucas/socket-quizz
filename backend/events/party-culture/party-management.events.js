@@ -1,17 +1,18 @@
 import { parties } from "../../data.js";
 
-const updatePartiesList = (socket) => {
-  console.log("@Update parties list");
-  socket.emit("parties-list", parties);
-};
+const updatePartiesList = (io) =>
+  io.emit("party-list-update", {
+    parties: parties,
+  });
+
 const updateParty = (socket, io) => (partyId) => {
-  console.log("@Update party", partyId);
+  console.log("@Update party", socket, partyId);
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
 
-  io.to(partyId).emit("party-update-one", parties[partyId]);
+  io.emit("party-update-one", parties[partyId]);
 };
 
 const clearDisconnectedUser = (socket, io) => {

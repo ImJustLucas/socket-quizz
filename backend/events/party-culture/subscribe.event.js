@@ -17,7 +17,7 @@ const createParty = (socket, io) => (partyName) => {
   socket.join(partyId);
   io.to(partyId).emit("party-created", parties[partyId]);
 
-  partyManagementEvents.updatePartiesList(socket);
+  partyManagementEvents.updatePartiesList(io);
 };
 
 const joinParty =
@@ -37,7 +37,7 @@ const joinParty =
     parties[partyId].members.push(socket.id);
     socket.join(partyId);
     io.to(partyId).emit("party-joined", parties[partyId]);
-    partyManagementEvents.updatePartiesList(socket);
+    partyManagementEvents.updatePartiesList(io);
   };
 
 const leaveParty = (socket, io) => (partyId) => {
@@ -53,7 +53,7 @@ const leaveParty = (socket, io) => (partyId) => {
 
   socket.leave(partyId);
   io.to(partyId).emit("party-left", parties[partyId]);
-  partyManagementEvents.updatePartiesList(socket);
+  partyManagementEvents.updatePartiesList(io);
 };
 
 const deleteParty = (socket, io) => (partyId) => {
