@@ -22,7 +22,7 @@ export const WaitingPlayer: React.FC<{
     <main>
       <div className="flex flex-col items-center justify-center max-w-3xl">
         <p className="text-center text-4xl mb-6">En attentes de joueur...</p>
-        <p className="text-center text-4xl"><span>2</span>/4</p>
+        <p className="text-center text-4xl"><span>{currentParty.members.length}</span>/4</p>
       </div>
       <Button onClick={handleLeaveGame} className="absolute top-4 left-4">Quitter</Button>
     </main>
