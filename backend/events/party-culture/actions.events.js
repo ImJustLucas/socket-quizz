@@ -1,4 +1,5 @@
 import { parties, questions } from "../../data.js";
+import partyManagementEvents from "./party-management.events.js";
 
 const startParty = (socket, io) => (partyId) => {
   console.log("@Start party", socket, partyId);
@@ -17,6 +18,12 @@ const nextQuestion = (socket, io) => (partyId) => {
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
+  }
+
+  if (
+    currentParty.questions.currentQuestion > currentParty.questions.maxQuestions
+  ) {
+    return endParty(socket, io)(partyId);
   }
 
   const currentParty = parties[partyId];
@@ -42,24 +49,30 @@ const endParty = (socket, io) => (partyId) => {
   }
 
   parties[partyId].status = "finished";
+
+  socket.to(partyId).emit("party-end", parties[partyId]);
+
+  partyManagementEvents.updatePartiesList(io);
 };
 
-const registerAnswer = (socket, io) => (partyId, answer) => {
-  console.log("@Register answer", socket, partyId, answer);
+const registerAnswer =
+  (socket, io) =>
+  (partyId, { id, answer }) => {
+    console.log("@Register answer", socket, partyId, answer);
 
-  if (!parties[partyId]) {
-    return socket.emit("party-not-found");
-  }
+    if (!parties[partyId]) {
+      return socket.emit("party-not-found");
+    }
 
-  const currentParty = parties[partyId];
+    const currentParty = parties[partyId];
 
-  currentParty.anwseredQuestion[socket.id][answer.id] = {
-    id: answer.id,
-    answer: answer.answer,
+    currentParty.answeredQuestion[socket.id][answer.id] = {
+      id: answer.id,
+      answer: answer.answer,
+    };
+
+    io.emit("party-update-one", parties[partyId]);
   };
-
-  io.emit("party-update-one", parties[partyId]);
-};
 
 const partyActionsEvent = {
   startParty,

@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
   socket.on("party-start", partyActionsEvent.startParty(io));
   socket.on("party-next-question", partyActionsEvent.nextQuestion(io));
   socket.on("party-end", partyActionsEvent.endParty(io));
-  socket.on("party-register-answer", partyActionsEvent.registerAnswer(io));
+  socket.on("party-answer-question", partyActionsEvent.registerAnswer(io));
 });
 
 server.listen(PORT, () => {
