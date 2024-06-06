@@ -21,7 +21,7 @@ const clearDisconnectedUser = (socket, io) => {
 
     if (index !== -1) {
       party.members.splice(index, 1);
-      io.to(partyId).emit("party-update-one", party);
+      io.to(party.id).emit("party-update-one", party);
     }
   }
 
