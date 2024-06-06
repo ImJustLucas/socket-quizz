@@ -4,18 +4,20 @@ import { Button } from "@/components/button";
 import { Input } from "@/components/Input";
 import { PartyContext } from "@/context/party-context";
 import { authPartyEvents } from "@/services/socket.io/party/authentification.event";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 export const WaitingPlayer: React.FC<{
   partyId: string;
 }> = ({ partyId }) => {
-  const [pseudo, setPseudo] = useState("");
   const { parties } = useContext(PartyContext);
+  const router = useRouter();
 
   const currentParty = parties[partyId];
 
   const handleLeaveGame = () => {
     authPartyEvents.leave(partyId);
+    router.push("/");
   }
 
   return (

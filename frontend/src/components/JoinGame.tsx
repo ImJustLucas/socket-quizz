@@ -4,6 +4,7 @@ import { Button } from "@/components/button";
 import { Input } from "@/components/Input";
 import { PartyContext } from "@/context/party-context";
 import { authPartyEvents } from "@/services/socket.io/party/authentification.event";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 
 export const JoinGame: React.FC<{
@@ -11,6 +12,7 @@ export const JoinGame: React.FC<{
 }> = ({ partyId }) => {
   const [pseudo, setPseudo] = useState("");
   const { parties } = useContext(PartyContext);
+  const router = useRouter();
 
   const currentParty = parties[partyId];
 
@@ -18,6 +20,11 @@ export const JoinGame: React.FC<{
     console.log("Create game", pseudo);
     authPartyEvents.join({ partyId, pseudo });
   };
+
+  const handleLeaveGame = () => {
+    router.push("/");
+  }
+
   return (
     <main>
       <div className="flex flex-col items-center justify-center max-w-3xl">
@@ -38,6 +45,7 @@ export const JoinGame: React.FC<{
           <Button onClick={handleJoinGame}>Joindre</Button>
         </div>
       </div>
+      <Button onClick={handleLeaveGame} className="absolute top-4 left-4">Quitter</Button>
     </main>
   );
 };

@@ -2,5 +2,5 @@ export type Party = {
   name: string;
   id: string;
   members: string[];
-  status: "waiting" | "playing" | "finished";
+  status: "waiting" | "playing" | "finished" | "starting";
 };
