@@ -2,16 +2,21 @@
 
 import { PartyContext } from "@/context/party-context";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { GamePreview } from "@/components/GamePreview";
 import { Button } from "@/components/button";
+import { authEvents } from "@/services/socket.io/global/init.socket";
+import { authPartyEvents } from "@/services/socket.io/party/authentification.event";
+import { Input } from "@/components/Input";
 
 export default function Home() {
   const { parties } = useContext(PartyContext);
+  const [room, setRoomName] = useState("");
+
 
   const handleCreateParty = () => {
-    console.log("Create party");
+    authPartyEvents.create(room);
   }
 
   return (
@@ -38,8 +43,10 @@ export default function Home() {
           )}
           <div className="flex flex-col">
             <label htmlFor="roomName" className="mb-2">Nouvelle salle</label>
-            <input type="text" id="roomName" placeholder="Nom de la salle" className="bg-[#34343A] border border-[#5D5D64] p-4 rounded-lg mb-4"/>
-            <Button>Créer une partie</Button>
+            <Input type="text" id="roomName" placeholder="Nom de la salle" className="mb-4" onChange={(e) => {
+              setRoomName(e.target.value);
+            }}/>
+            <Button onClick={handleCreateParty}>Créer une partie</Button>
           </div>
       </div>
     </main>
