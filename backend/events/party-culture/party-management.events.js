@@ -1,4 +1,4 @@
-import { parties } from "../../data";
+import { parties } from "../../data.js";
 
 const updatePartiesList = (socket) =>
   socket.emit("party-list-update", {
