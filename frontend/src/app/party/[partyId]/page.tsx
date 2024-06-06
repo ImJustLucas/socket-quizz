@@ -1,6 +1,7 @@
 "use client";
 
 import { JoinGame } from "@/components/JoinGame";
+import { Question } from "@/components/Question";
 import { Starting } from "@/components/Starting";
 import { WaitingPlayer } from "@/components/WaitingPlayer";
 import { PartyContext } from "@/context/party-context";
@@ -37,6 +38,8 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
       </div>
     );
   }
+
+  return <Question partyId={partyId}/>;
 
   if (!party.members.includes(socket.id as string)) {
     return <JoinGame partyId={partyId} />;

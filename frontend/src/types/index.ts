@@ -20,9 +20,9 @@ export type memberAnwser = {
   score: number;
 };
 
-export type Question = {
+export type QuestionType = {
   id: string;
   question: string;
   answers: [string, string, string, string];
-  correctAnswer: string;
+  correctAnswer: number;
 };
