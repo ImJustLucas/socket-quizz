@@ -9,6 +9,7 @@ import { sendMessageGLobal } from "./events/global/message.event.js";
 
 import subscribePartyEvents from "./events/party-culture/subscribe.event.js";
 import partyManagementEvents from "./events/party-culture/party-management.events.js";
+import partyActionsEvent from "./events/party-culture/actions.events.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -42,6 +43,11 @@ io.on("connection", (socket) => {
   socket.on("party-join", subscribePartyEvents.join(socket, io));
   socket.on("party-leave", subscribePartyEvents.leave(socket, io));
   socket.on("party-delete", subscribePartyEvents.delete(socket, io));
+
+  socket.on("party-start", partyActionsEvent.startParty(io));
+  socket.on("party-next-question", partyActionsEvent.nextQuestion(io));
+  socket.on("party-end", partyActionsEvent.endParty(io));
+  socket.on("party-register-answer", partyActionsEvent.registerAnswer(io));
 });
 
 server.listen(PORT, () => {

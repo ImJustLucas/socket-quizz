@@ -1,6 +1,6 @@
 export type Party = {
   name: string;
-  id: string;
+  id: PartyID;
   members: string[];
   status: "waiting" | "playing" | "finished" | "starting";
   questions: {
@@ -8,17 +8,15 @@ export type Party = {
     currentQuestion: number;
     questionsIds: string[];
   };
+  anwseredQuestion: Record<SocketID, UserAnwser>;
 };
 
-export type memberAnwser = {
-  socketId: string;
-  partyId: string;
-  questions: {
-    questionId: string;
-    answer: string;
-  }[];
-  score: number;
+export type Anwser = {
+  id: string;
+  answer: string;
 };
+
+type UserAnwser = Record<QuestionID, Anwser>;
 
 export type QuestionType = {
   id: string;
@@ -26,3 +24,7 @@ export type QuestionType = {
   answers: [string, string, string, string];
   correctAnswer: number;
 };
+
+type SocketID = string;
+type PartyID = string;
+type QuestionID = string;
