@@ -22,29 +22,24 @@ const PartyProvider: React.FC<{
   const router = useRouter();
 
   socket.on("party-list-update", (parties: Record<string, Party>) => {
-    // console.log("@Update - Parties", parties);
     setParties(parties);
     setIsFetching(false);
   });
 
   socket.on("party-update-one", (party) => {
-    // console.log("@Party update one", party);
     setParties((prev) => ({
       ...prev,
       [party.id]: party,
     }));
   });
 
-  socket.on("party-created", (party) => {
-    console.log("@Party created");
-    router.push(`/party/${party.id}`);
-  });
+  socket.on("party-created", (party) => router.push(`/party/${party.id}`));
 
   useEffect(() => {
     partyEvent.getParties();
-    // return () => {
-    //   socket.off("party-get-all");
-    // };
+    return () => {
+      socket.off("party-get-all");
+    };
   }, []);
 
   return (

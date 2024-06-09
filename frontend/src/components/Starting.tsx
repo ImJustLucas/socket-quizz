@@ -1,22 +1,19 @@
 "use client";
 
 import { Button } from "@/components/button";
-import { PartyContext } from "@/context/party-context";
 import { partyEvents } from "@/services/socket.io/party/action.event";
 import { authPartyEvents } from "@/services/socket.io/party/authentification.event";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Starting: React.FC<{
   partyId: string;
 }> = ({ partyId }) => {
-  const { parties } = useContext(PartyContext);
   const router = useRouter();
-  const currentParty = parties[partyId];
 
   const [countdown, setCountdown] = useState(5);
   const [countdownText, setCountdownText] = useState<string | number>(5);
-  const [animationClass, setAnimationClass] = useState("scale-down");
+  const [animationClass] = useState("scale-down");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -24,7 +21,7 @@ export const Starting: React.FC<{
         if (prev === 1) {
           clearInterval(timer);
           setCountdownText("GO!");
-          return 0; // Just to stop the countdown
+          return 0;
         }
         return prev - 1;
       });
@@ -37,10 +34,7 @@ export const Starting: React.FC<{
     if (countdown > 0) {
       setCountdownText(countdown);
     }
-
-    if (countdown === 0) {
-      partyEvents.nextQuestion(partyId);
-    }
+    partyEvents.nextQuestion(partyId);
   }, [countdown, partyId]);
 
   const handleLeaveGame = () => {

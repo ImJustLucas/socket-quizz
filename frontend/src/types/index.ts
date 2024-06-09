@@ -2,7 +2,8 @@ export type Party = {
   name: string;
   id: PartyID;
   members: string[];
-  status: "waiting" | "playing" | "finished" | "starting";
+  status: "waiting" | "playing" | "finished" | "starting" | "wait-question";
+  owner: string;
   questions: {
     maxQuestions: number;
     currentQuestion: number;

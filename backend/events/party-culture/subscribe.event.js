@@ -41,6 +41,10 @@ const joinParty =
     }
 
     parties[partyId].members.push(socket.id);
+
+    if (parties[partyId].members.length === 1) {
+      parties[partyId].owner = socket.id;
+    }
     socket.join(partyId);
     io.to(partyId).emit("party-joined", parties[partyId]);
     partyManagementEvents.updatePartiesList(io);
@@ -56,6 +60,10 @@ const leaveParty = (socket, io) => (partyId) => {
   parties[partyId].members = parties[partyId].members.filter(
     (userId) => userId !== socket.id
   );
+
+  if (parties[partyId].owner === socket.id) {
+    parties[partyId].owner = parties[partyId].members[0] ?? "";
+  }
 
   socket.leave(partyId);
   io.to(partyId).emit("party-left", parties[partyId]);

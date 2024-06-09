@@ -8,7 +8,7 @@ const disconnectEvent = () =>
 
 const connectErrorEvent = () =>
   socket.on("connect_error", (err) =>
-    console.log(`connect_error due to ${err}`)
+    console.error(`connect_error due to ${err}`)
   );
 
 export const authEvents = {

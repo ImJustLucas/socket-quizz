@@ -16,14 +16,9 @@ export const JoinGame: React.FC<{
 
   const currentParty = parties[partyId];
 
-  const handleJoinGame = () => {
-    console.log("Create game", pseudo);
-    authPartyEvents.join({ partyId, pseudo });
-  };
+  const handleJoinGame = () => authPartyEvents.join({ partyId, pseudo });
 
-  const handleLeaveGame = () => {
-    router.push("/");
-  }
+  const handleLeaveGame = () => router.push("/");
 
   return (
     <main>
@@ -45,7 +40,9 @@ export const JoinGame: React.FC<{
           <Button onClick={handleJoinGame}>Joindre</Button>
         </div>
       </div>
-      <Button onClick={handleLeaveGame} className="absolute top-4 left-4">Quitter</Button>
+      <Button onClick={handleLeaveGame} className="absolute top-4 left-4">
+        Quitter
+      </Button>
     </main>
   );
 };

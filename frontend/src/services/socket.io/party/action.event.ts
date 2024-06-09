@@ -15,8 +15,11 @@ const answerQuestion = (
   }
 ) => socket.emit("party-answer-question", partyId, anwser);
 
+const end = (partyId: string) => socket.emit("party-end", partyId);
+
 export const partyEvents = {
   start: startParty,
   nextQuestion,
   answerQuestion,
+  end,
 };

@@ -7,9 +7,10 @@ export const parties = {
     questions: {
       maxQuestions: 4,
       currentQuestion: 0,
-      questionsIds: ["1", "2", "3", "4"],
+      questionsIds: ["0", "1", "2", "3"],
     },
     answeredQuestion: {},
+    owner: "",
   },
   full: {
     id: "full",
@@ -23,34 +24,31 @@ export const parties = {
     questions: {
       maxQuestions: 4,
       currentQuestion: 0,
-      questionsIds: ["1", "2", "3", "4"],
+      questionsIds: ["0", "1", "2", "3"],
     },
     answeredQuestion: {},
     status: "waiting",
+    owner: "a0IdVy8IJpp73xtAAAB_",
   },
 };
 
 export const questions = [
   {
-    id: "1",
     question: "Quelle est la capitale de la France ?",
     answers: ["Paris", "Londres", "Madrid", "Berlin"],
     correctAnswer: 0,
   },
   {
-    id: "2",
     question: "Quelle est la capitale de l'Allemagne ?",
     answers: ["Paris", "Londres", "Madrid", "Berlin"],
     correctAnswer: 3,
   },
   {
-    id: "3",
     question: "Quelle est la capitale de l'Espagne ?",
     answers: ["Paris", "Londres", "Madrid", "Berlin"],
     correctAnswer: 2,
   },
   {
-    id: "4",
     question: "Quelle est la capitale du Royaume-Uni ?",
     answers: ["Paris", "Londres", "Madrid", "Berlin"],
     correctAnswer: 1,

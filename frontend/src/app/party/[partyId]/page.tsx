@@ -17,12 +17,10 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   const router = useRouter();
   const { parties, isFetching } = useContext(PartyContext);
 
-  console.log(isFetching);
-
   const handleLeaveGame = () => {
     authPartyEvents.leave(partyId);
     router.push("/");
-  }
+  };
 
   const partyId = params.partyId;
 
@@ -31,11 +29,8 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
   const party = parties[partyId];
 
   if (!party && !isFetching) {
-    console.log("party not found");
     router.push("/");
   }
-
-  console.log("party", party);
 
   if (party.members.length >= 4) {
     return (
@@ -45,7 +40,6 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
       </div>
     );
   }
-
 
   if (!party.members.includes(socket.id as string)) {
     return <JoinGame partyId={partyId} />;
@@ -65,7 +59,7 @@ const PartyIdPage = ({ params }: { params: { partyId: string } }) => {
 
   return (
     <div>
-      <Question partyId={partyId} />;
+      <Question partyId={partyId} />
     </div>
   );
 };

@@ -13,8 +13,12 @@ const startParty = (socket, io) => (partyId) => {
   io.emit("party-update-one", parties[partyId]);
 };
 
+let ischanging;
+
 const nextQuestion = (socket, io) => (partyId) => {
-  console.log("@Next question", partyId);
+  console.log("@Next question", partyId, ischanging);
+  if (ischanging) return console.log("Is changing");
+  ischanging = true;
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
@@ -54,11 +58,10 @@ const nextQuestion = (socket, io) => (partyId) => {
   );
   currentParty.questions.currentQuestion += 1;
   io.emit("party-update-one", parties[partyId]);
+  ischanging = false;
 };
 
 const endParty = (socket, io) => (partyId) => {
-  console.log("@End party", partyId);
-
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }

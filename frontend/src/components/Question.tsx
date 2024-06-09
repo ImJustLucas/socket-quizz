@@ -4,7 +4,7 @@ import { AnswerButton } from "@/components/AnswerButton";
 import { socket } from "@/services/socket.io";
 import { partyEvents } from "@/services/socket.io/party/action.event";
 import type { QuestionType } from "@/types";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 type QuestionScreenProps = {
   partyId: string;
@@ -14,24 +14,24 @@ export const Question: React.FC<QuestionScreenProps> = ({ partyId }) => {
   const [question, setQuestion] = useState<QuestionType | null>(null);
   const [alreadyAnswered, setAlreadyAnswered] = useState(false);
 
-  socket.on("party-next-question", (question: QuestionType) => {
-    console.log("@Question", question);
-    setQuestion(question);
-    setAlreadyAnswered(false);
-    //TODO: restart timer
-  });
-
   const handleAnswer = ({ id, answer }: { id: number; answer: string }) => {
     if (alreadyAnswered) return;
-    console.log("answer", { id, answer });
     partyEvents.answerQuestion(partyId, { id, answer });
     setAlreadyAnswered(true);
   };
 
-  setTimeout(() => {
-    console.log("next question event");
-    partyEvents.nextQuestion(partyId);
-  }, 10000);
+  socket.on("party-next-question", (question: QuestionType) => {
+    setQuestion(question);
+    setAlreadyAnswered(false);
+  });
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      partyEvents.end(partyId);
+    }, 10000);
+
+    return () => clearTimeout(timeoutId);
+  }, [partyId, alreadyAnswered]);
 
   if (!question) return null;
 
