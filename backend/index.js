@@ -24,7 +24,7 @@ const io = new Server(server, {
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.json(`ip address: http://${ip.address()}:${PORT}`);
+  res.json(`ip address: http://localhost:${PORT}`);
 });
 
 io.on("connection", (socket) => {
@@ -44,12 +44,15 @@ io.on("connection", (socket) => {
   socket.on("party-leave", subscribePartyEvents.leave(socket, io));
   socket.on("party-delete", subscribePartyEvents.delete(socket, io));
 
-  socket.on("party-start", partyActionsEvent.startParty(io));
-  socket.on("party-next-question", partyActionsEvent.nextQuestion(io));
-  socket.on("party-end", partyActionsEvent.endParty(io));
-  socket.on("party-answer-question", partyActionsEvent.registerAnswer(io));
+  socket.on("party-start", partyActionsEvent.startParty(socket, io));
+  socket.on("party-next-question", partyActionsEvent.nextQuestion(socket, io));
+  socket.on("party-end", partyActionsEvent.endParty(socket, io));
+  socket.on(
+    "party-answer-question",
+    partyActionsEvent.registerAnswer(socket, io)
+  );
 });
 
 server.listen(PORT, () => {
-  console.log(`Server ip : http://${ip.address()}:${PORT}`);
+  console.log(`Server ip : http://localhost:${PORT}`);
 });

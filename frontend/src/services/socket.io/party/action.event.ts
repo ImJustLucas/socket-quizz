@@ -10,7 +10,7 @@ const nextQuestion = (partyId: string) =>
 const answerQuestion = (
   partyId: string,
   anwser: {
-    index: number;
+    id: number;
     answer: string;
   }
 ) => socket.emit("party-answer-question", partyId, anwser);

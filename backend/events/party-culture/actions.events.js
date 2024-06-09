@@ -2,7 +2,7 @@ import { parties, questions } from "../../data.js";
 import partyManagementEvents from "./party-management.events.js";
 
 const startParty = (socket, io) => (partyId) => {
-  console.log("@Start party", socket, partyId);
+  console.log("@Start party", partyId);
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
@@ -10,15 +10,21 @@ const startParty = (socket, io) => (partyId) => {
 
   parties[partyId].status = "starting";
 
-  io.to(partyId).emit("party-update-one", parties[partyId]);
+  io.emit("party-update-one", parties[partyId]);
 };
 
 const nextQuestion = (socket, io) => (partyId) => {
-  console.log("@Next question", socket, partyId);
+  console.log("@Next question", partyId);
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
   }
+
+  const currentParty = parties[partyId];
+  console.log(
+    "Need to end ?",
+    currentParty.questions.currentQuestion > currentParty.questions.maxQuestions
+  );
 
   if (
     currentParty.questions.currentQuestion > currentParty.questions.maxQuestions
@@ -26,24 +32,32 @@ const nextQuestion = (socket, io) => (partyId) => {
     return endParty(socket, io)(partyId);
   }
 
-  const currentParty = parties[partyId];
-
   parties[partyId].status = "playing";
-  currentParty.questions.currentQuestion += 1;
 
-  io.to(partyId).emit(
-    "party-new-question",
+  console.log(
+    "@Next question",
+    currentParty.questions.currentQuestion,
     questions[
       currentParty.questions.questionsIds[
         currentParty.questions.currentQuestion
       ]
     ]
   );
+
+  io.to(partyId).emit(
+    "party-next-question",
+    questions[
+      currentParty.questions.questionsIds[
+        currentParty.questions.currentQuestion
+      ]
+    ]
+  );
+  currentParty.questions.currentQuestion += 1;
   io.emit("party-update-one", parties[partyId]);
 };
 
 const endParty = (socket, io) => (partyId) => {
-  console.log("@End party", socket, partyId);
+  console.log("@End party", partyId);
 
   if (!parties[partyId]) {
     return socket.emit("party-not-found");
@@ -56,24 +70,34 @@ const endParty = (socket, io) => (partyId) => {
   partyManagementEvents.updatePartiesList(io);
 };
 
-const registerAnswer =
-  (socket, io) =>
-  (partyId, { id, answer }) => {
-    console.log("@Register answer", socket, partyId, answer);
+const registerAnswer = (socket, io) => (partyId, answer) => {
+  console.log("@Register answer", socket.id, partyId);
 
-    if (!parties[partyId]) {
-      return socket.emit("party-not-found");
-    }
+  if (!parties[partyId]) {
+    return socket.emit("party-not-found");
+  }
 
-    const currentParty = parties[partyId];
+  const currentParty = parties[partyId];
 
+  if (currentParty.answeredQuestion[socket.id]) {
     currentParty.answeredQuestion[socket.id][answer.id] = {
       id: answer.id,
       answer: answer.answer,
     };
+  } else {
+    currentParty.answeredQuestion = {
+      ...currentParty.answeredQuestion,
+      [socket.id]: {
+        [answer.id]: {
+          id: answer.id,
+          answer: answer.answer,
+        },
+      },
+    };
+  }
 
-    io.emit("party-update-one", parties[partyId]);
-  };
+  io.emit("party-update-one", parties[partyId]);
+};
 
 const partyActionsEvent = {
   startParty,

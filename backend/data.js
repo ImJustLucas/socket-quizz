@@ -9,6 +9,7 @@ export const parties = {
       currentQuestion: 0,
       questionsIds: ["1", "2", "3", "4"],
     },
+    answeredQuestion: {},
   },
   full: {
     id: "full",
@@ -24,6 +25,7 @@ export const parties = {
       currentQuestion: 0,
       questionsIds: ["1", "2", "3", "4"],
     },
+    answeredQuestion: {},
     status: "waiting",
   },
 };
@@ -32,25 +34,25 @@ export const questions = [
   {
     id: "1",
     question: "Quelle est la capitale de la France ?",
-    anwsers: ["Paris", "Londres", "Madrid", "Berlin"],
-    correctAnswer: "Paris",
+    answers: ["Paris", "Londres", "Madrid", "Berlin"],
+    correctAnswer: 0,
   },
   {
     id: "2",
     question: "Quelle est la capitale de l'Allemagne ?",
-    anwsers: ["Paris", "Londres", "Madrid", "Berlin"],
-    correctAnswer: "Berlin",
+    answers: ["Paris", "Londres", "Madrid", "Berlin"],
+    correctAnswer: 3,
   },
   {
     id: "3",
     question: "Quelle est la capitale de l'Espagne ?",
-    anwsers: ["Paris", "Londres", "Madrid", "Berlin"],
-    correctAnswer: "Madrid",
+    answers: ["Paris", "Londres", "Madrid", "Berlin"],
+    correctAnswer: 2,
   },
   {
     id: "4",
     question: "Quelle est la capitale du Royaume-Uni ?",
-    anwsers: ["Paris", "Londres", "Madrid", "Berlin"],
-    correctAnswer: "Londres",
+    answers: ["Paris", "Londres", "Madrid", "Berlin"],
+    correctAnswer: 1,
   },
 ];

@@ -22,13 +22,13 @@ const PartyProvider: React.FC<{
   const router = useRouter();
 
   socket.on("party-list-update", (parties: Record<string, Party>) => {
-    console.log("@Update - Parties", parties);
+    // console.log("@Update - Parties", parties);
     setParties(parties);
     setIsFetching(false);
   });
 
   socket.on("party-update-one", (party) => {
-    console.log("@Party update one", party);
+    // console.log("@Party update one", party);
     setParties((prev) => ({
       ...prev,
       [party.id]: party,

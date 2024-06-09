@@ -12,10 +12,10 @@ const createParty = (socket, io) => (partyName) => {
     status: "waiting",
     questions: {
       maxQuestions: 4,
-      currentQuestion: 1,
+      currentQuestion: 0,
       questionsIds: ["1", "2", "3", "4"],
     },
-    anwseredQuestion: {},
+    answeredQuestion: {},
   };
 
   console.log("@Create party", parties[partyId]);
